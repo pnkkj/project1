@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result | Churn Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 550px;
+            width: 100%;
+        }
+
+        .status-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .status-churn { color: #dc3545; } /* Red for Yes */
+        .status-stay { color: #198754; }  /* Green for No */
+
+        .probability-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: #f8f9fa;
+            border: 8px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px auto;
+            position: relative;
+        }
+
+        .probability-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #333;
+        }
+
+        .probability-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-return {
+            border-radius: 50px;
+            padding: 10px 30px;
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container d-flex justify-content-center">
+        <div class="result-card" data-aos="zoom-in" data-aos-duration="800">
+            
+            {% if result == 1 %}
+                <div class="status-icon status-churn">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+                <h2 class="fw-bold">High Churn Risk</h2>
+                <p class="text-muted">This customer is likely to leave the service (Churn: Yes).</p>
+                <div class="alert alert-danger border-0">Immediate retention action recommended.</div>
+            {% else %}
+                <div class="status-icon status-stay">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h2 class="fw-bold">Retention Likely</h2>
+                <p class="text-muted">Customer is healthy and unlikely to leave (Nahi jayega).</p>
+                <div class="alert alert-success border-0">Standard engagement protocols applied.</div>
+            {% endif %}
+
+            <div class="probability-circle" data-aos="flip-left" data-aos-delay="400">
+                <div>
+                    <div class="probability-value">{{ "%.1f"|format(probability * 100) }}%</div>
+                    <div class="probability-label">Confidence</div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="/pankaj" class="btn btn-outline-secondary btn-return">
+                    <i class="bi bi-arrow-left me-2"></i>Run Another Prediction
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
